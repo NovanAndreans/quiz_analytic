@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../Components/Widgets/Settings/navbar.dart';
+import '../../Controllers/lesson_controller.dart';
 
 class MateriPage extends StatelessWidget {
   const MateriPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LessonController());
     return Scaffold(
       backgroundColor: const Color(0xFFF7FAFF),
       appBar: AppBar(
@@ -14,8 +16,14 @@ class MateriPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications_none, color: Colors.grey)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.person, color: Colors.grey)),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.notifications_none, color: Colors.grey),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.person, color: Colors.grey),
+          ),
         ],
       ),
       body: Padding(
@@ -45,11 +53,14 @@ class MateriPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
-                Text('Filter', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                Text(
+                  'Filter',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
                 Row(
                   children: [
                     Icon(Icons.grid_view_rounded, color: Colors.grey),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 10),
                     Icon(Icons.list_rounded, color: Colors.grey),
                   ],
                 ),
@@ -72,10 +83,15 @@ class MateriPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
-                        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                        boxShadow: [
+                          BoxShadow(color: Colors.black12, blurRadius: 4),
+                        ],
                       ),
                       child: const Center(
-                        child: Text("DAFTAR MATERI", textAlign: TextAlign.center),
+                        child: Text(
+                          "DAFTAR MATERI",
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   );
@@ -94,38 +110,68 @@ class MateriPage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             // 🎯 Rekomendasi Materi
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-                childAspectRatio: 3 / 4,
+            Obx(
+              () => GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  childAspectRatio: 3 / 4,
+                ),
+                itemCount: controller.lessons.length,
+                itemBuilder: (context, index) {
+                  final lesson = controller.lessons[index];
+                  return GestureDetector(
+                    onTap: () {
+                      // Kirim data jika perlu
+                      Get.toNamed('/materi-detail-list', arguments: lesson);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(color: Colors.black12, blurRadius: 4),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          if (lesson.coverUrl != null)
+                            ClipRRect(
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(16),
+                              ),
+                              child: Image.network(
+                                lesson.coverUrl ?? '',
+                                height: 120,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text(
+                              lesson.title,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                    onTap: () => Get.toNamed('/materi-detail-list'),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
-                    ),
-                    child: const Center(
-                      child: Text("REKOMENDASI MATERI", textAlign: TextAlign.center),
-                    ),
-                  ),
-                );
-              },
             ),
           ],
         ),
       ),
-      bottomNavigationBar: CustomNavbar(
-        currentIndex: 1,
-      ),
+      bottomNavigationBar: CustomNavbar(currentIndex: 1),
     );
   }
 }

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../Components/Widgets/Forms/custom_button.dart';
 import '../../Components/Widgets/Forms/custom_textfield.dart';
 import '../../Components/Widgets/Settings/logo.dart';
+import '../../Controllers/auth_controller.dart';
 
 class LoginPage extends StatelessWidget {
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -32,30 +31,31 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 32),
               const Text(
                 'Login',
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 24),
               CustomTextField(
-                controller: usernameController,
-                hintText: 'Username',
+                controller: authController.usernameController,
+                hintText: 'Email',
                 icon: Icons.person_outline,
               ),
               const SizedBox(height: 16),
               CustomTextField(
-                controller: passwordController,
+                controller: authController.passwordController,
                 hintText: 'Password',
                 icon: Icons.lock_outline,
                 obscureText: true,
               ),
               const SizedBox(height: 24),
-              CustomButton(
-                text: 'Sign In',
-                onPressed: () {
-                  Get.toNamed('/home');
-                },
+              Obx(
+                () => CustomButton(
+                  text:
+                      authController.isLoading.value ? 'Loading...' : 'Sign In',
+                  onPressed:
+                      authController.isLoading.value
+                          ? null
+                          : authController.login,
+                ),
               ),
               const SizedBox(height: 24),
               GestureDetector(
@@ -77,7 +77,7 @@ class LoginPage extends StatelessWidget {
                     style: TextStyle(fontSize: 12),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
