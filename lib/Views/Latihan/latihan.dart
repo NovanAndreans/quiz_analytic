@@ -99,7 +99,7 @@ class LatihanPage extends StatelessWidget {
               // ➕ Buat Kuis Baru
               ElevatedButton.icon(
                 onPressed: () {
-                  // Get.toNamed('/buat-kuis');
+                  Get.toNamed('/create-latihan');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF387FFF),

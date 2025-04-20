@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'Views/Guest/login_page.dart';
 import 'Views/Guest/register_page.dart';
 import 'Views/Guest/splash_page.dart';
+import 'Views/Latihan/create_latihan.dart';
 import 'Views/Latihan/latihan.dart';
 import 'Views/Latihan/latihan_detail.dart';
 import 'Views/Latihan/latihan_evaluasi.dart';
@@ -25,4 +26,5 @@ final appRoutes = [
   GetPage(name: '/latihan', page: () => LatihanPage()),
   GetPage(name: '/latihan-detail', page: () => LatihanDetail()),
   GetPage(name: '/latihan-evaluasi', page: () => LatihanEvaluasi()),
+  GetPage(name: '/create-latihan', page: () => CreateLatihanPage()),
 ];
