@@ -3,16 +3,16 @@ import 'package:get/get.dart';
 import '../../Components/Widgets/Forms/custom_button.dart';
 import '../../Components/Widgets/Forms/custom_textfield.dart';
 import '../../Components/Widgets/Settings/logo.dart';
+import '../../Controllers/auth_controller.dart';
 
 class RegisterPage extends StatelessWidget {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  RegisterPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Ambil AuthController
+    final AuthController authController = Get.find<AuthController>();
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -40,26 +40,26 @@ class RegisterPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 CustomTextField(
-                  controller: nameController,
+                  controller: authController.nameController,
                   hintText: 'Name',
                   icon: Icons.person_outline,
                 ),
                 const SizedBox(height: 16),
                 CustomTextField(
-                  controller: emailController,
+                  controller: authController.emailController,
                   hintText: 'Email',
                   icon: Icons.email_outlined,
                 ),
                 const SizedBox(height: 16),
                 CustomTextField(
-                  controller: passwordController,
+                  controller: authController.passwordController,
                   hintText: 'Password',
                   icon: Icons.lock_outline,
                   obscureText: true,
                 ),
                 const SizedBox(height: 16),
                 CustomTextField(
-                  controller: confirmPasswordController,
+                  controller: authController.confirmPasswordController,
                   hintText: 'Konfirmasi Password',
                   icon: Icons.lock_outline,
                   obscureText: true,
@@ -68,13 +68,26 @@ class RegisterPage extends StatelessWidget {
                 CustomButton(
                   text: 'Sign Up',
                   onPressed: () {
-                    Get.toNamed('/home');
+                    // Validasi apakah password dan konfirmasi password cocok
+                    if (authController.passwordController.text.trim() != authController.confirmPasswordController.text.trim()) {
+                      Get.snackbar(
+                        'Error',
+                        'Password tidak cocok',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.red,
+                        colorText: Colors.white,
+                      );
+                      return;
+                    }
+
+                    // Panggil register melalui AuthController
+                    authController.register();
                   },
                 ),
                 const SizedBox(height: 24),
                 GestureDetector(
                   onTap: () {
-                    Get.back(); // balik ke login
+                    Get.back(); // Balik ke halaman login
                   },
                   child: const Text.rich(
                     TextSpan(

@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../Components/Widgets/Forms/custom_button.dart';
 import '../../Components/Widgets/Forms/custom_textfield.dart';
 import '../../Components/Widgets/Settings/logo.dart';
-import '../../Controllers/auth_controller.dart';
+import '../../Controllers/auth_controller.dart';  // Import your AuthController
 
 class LoginPage extends StatelessWidget {
-  final AuthController authController = Get.put(AuthController());
+  final AuthController _authController = Get.put(AuthController());  // Bind AuthController to the widget
 
   @override
   Widget build(BuildContext context) {
+    // Check if user is already logged in
+    if (_authController.isLoggedIn) {
+      // If logged in, navigate directly to the HomePage
+      Future.delayed(Duration.zero, () {
+        Get.offAllNamed('/home');
+      });
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -31,31 +40,34 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 32),
               const Text(
                 'Login',
-                style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               const SizedBox(height: 24),
+              // Bind the email field to the controller
               CustomTextField(
-                controller: authController.usernameController,
+                controller: _authController.emailController,
                 hintText: 'Email',
-                icon: Icons.person_outline,
+                icon: Icons.email_outlined,
+                // keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 16),
+              // Bind the password field to the controller
               CustomTextField(
-                controller: authController.passwordController,
+                controller: _authController.passwordController,
                 hintText: 'Password',
                 icon: Icons.lock_outline,
                 obscureText: true,
               ),
               const SizedBox(height: 24),
-              Obx(
-                () => CustomButton(
-                  text:
-                      authController.isLoading.value ? 'Loading...' : 'Sign In',
-                  onPressed:
-                      authController.isLoading.value
-                          ? null
-                          : authController.login,
-                ),
+              // Trigger the login function on button press
+              CustomButton(
+                text: 'Sign In',
+                onPressed: () {
+                  _authController.login();  // Call login method from controller
+                },
               ),
               const SizedBox(height: 24),
               GestureDetector(
@@ -77,7 +89,7 @@ class LoginPage extends StatelessWidget {
                     style: TextStyle(fontSize: 12),
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),

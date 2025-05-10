@@ -5,6 +5,7 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final IconData icon;
   final bool obscureText;
+  final TextInputType keyboardType; // Added keyboardType parameter
 
   const CustomTextField({
     Key? key,
@@ -12,6 +13,8 @@ class CustomTextField extends StatelessWidget {
     required this.hintText,
     required this.icon,
     this.obscureText = false,
+    this.keyboardType =
+        TextInputType.text, // Default to text input if not specified
   }) : super(key: key);
 
   @override
@@ -19,6 +22,7 @@ class CustomTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       obscureText: obscureText,
+      keyboardType: keyboardType, // Pass keyboardType to TextField
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: Icon(icon),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../Components/Widgets/Settings/appbar.dart';
 import '../Components/Widgets/Settings/navbar.dart';
+import '../Controllers/auth_controller.dart'; // Assuming you have AuthController for managing the logout
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -13,6 +16,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AuthController authController =
+        Get.find<AuthController>(); // Access AuthController for logout
+    final userName =
+        authController.currentUser?['name'] ??
+        'User'; // Get user name or default to 'User'
+
     return Scaffold(
       backgroundColor: const Color(0xFFF7FAFF),
       body: SafeArea(
@@ -21,21 +30,7 @@ class HomePage extends StatelessWidget {
           child: ListView(
             children: [
               const SizedBox(height: 16),
-              // 🔔 Appbar Icons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text("Home",
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  Row(
-                    children: [
-                      Icon(Icons.notifications_none, color: Colors.black45),
-                      SizedBox(width: 12),
-                      Icon(Icons.person_outline, color: Colors.black45),
-                    ],
-                  )
-                ],
-              ),
+              CustomAppBar(judul: "Beranda"),
               const SizedBox(height: 24),
 
               // 👋 Greeting and Streak
@@ -47,18 +42,28 @@ class HomePage extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
-                        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                        boxShadow: [
+                          BoxShadow(color: Colors.black12, blurRadius: 4),
+                        ],
                       ),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Hello Novan,",
-                              style: TextStyle(fontSize: 14, color: Colors.black87)),
-                          Text("Ayo Belajar!",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold)),
+                          Text(
+                            "Hello $userName,",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          const Text(
+                            "Ayo Belajar!",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -70,18 +75,25 @@ class HomePage extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
-                        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                        boxShadow: [
+                          BoxShadow(color: Colors.black12, blurRadius: 4),
+                        ],
                       ),
                       child: const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Streak",
-                              style: TextStyle(fontSize: 14, color: Colors.grey)),
-                          Text("168 Hari",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.orange)),
+                          Text(
+                            "Streak",
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                          ),
+                          Text(
+                            "168 Hari",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orange,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -97,9 +109,10 @@ class HomePage extends StatelessWidget {
                   Text(
                     "Pembelajaranmu",
                     style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF387FFF)),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF387FFF),
+                    ),
                   ),
                   Icon(Icons.grid_view_rounded, color: Colors.black38),
                 ],
@@ -123,20 +136,26 @@ class HomePage extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
-                      boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                      boxShadow: [
+                        BoxShadow(color: Colors.black12, blurRadius: 4),
+                      ],
                     ),
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.menu_book,
-                            color: Color(0xFF387FFF), size: 36),
+                        const Icon(
+                          Icons.menu_book,
+                          color: Color(0xFF387FFF),
+                          size: 36,
+                        ),
                         const SizedBox(height: 16),
                         Text(
                           course['title'],
                           style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF387FFF)),
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF387FFF),
+                          ),
                         ),
                         const SizedBox(height: 12),
                         LinearProgressIndicator(
@@ -150,7 +169,9 @@ class HomePage extends StatelessWidget {
                         Text(
                           "${(course['progress'] * 100).toStringAsFixed(0)}%",
                           style: const TextStyle(
-                              fontSize: 12, color: Colors.black54),
+                            fontSize: 12,
+                            color: Colors.black54,
+                          ),
                         ),
                       ],
                     ),

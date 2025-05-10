@@ -1,31 +1,29 @@
 import 'package:get/get.dart';
-import '../Models/lesson.dart';
-import '../Services/lesson_service.dart';
+import 'package:quiz_analytic/Models/lesson.dart';
+import 'package:quiz_analytic/Services/lesson_service.dart';
 
 class LessonController extends GetxController {
-  final lessons = <Lesson>[].obs;
-  final isLoading = true.obs;
+  var isLoading = true.obs;
+  var LessonList = <Lesson>[].obs;
+  final LessonService _LessonService = LessonService();
 
-  final LessonService _service = Get.put(LessonService());
+  // Fetch Lesson data using the LessonService
+  Future<void> fetchLesson() async {
+    try {
+      isLoading(true); // Start loading state
+      var response = await _LessonService.fetchLesson();
 
-  @override
-  void onInit() {
-    fetchLessons();
-    super.onInit();
-  }
-
-  void fetchLessons() async {
-    isLoading.value = true;
-    print('tes');
-
-    final response = await _service.getLessons();
-    if (response.statusCode == 200 && response.body['content'] != null) {
-      final list = response.body['content'] as List;
-      lessons.value = list.map((json) => Lesson.fromJson(json)).toList();
-    } else {
-      print('Gagal fetch: ${response.body}');
+      if (response.isOk) {
+        // Map the response body to Lesson objects
+        var data = List<Lesson>.from(
+            response.body['content'].map((item) => Lesson.fromJson(item)));
+        LessonList.assignAll(data); // Update the Lesson list
+      } else {
+        // Handle error
+        Get.snackbar('Error', 'Failed to fetch Lesson');
+      }
+    } finally {
+      isLoading(false); // Stop loading state
     }
-
-    isLoading.value = false;
   }
 }
