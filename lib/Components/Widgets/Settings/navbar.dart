@@ -36,7 +36,7 @@ class CustomNavbar extends StatelessWidget {
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
         BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'Materi'),
         BottomNavigationBarItem(icon: Icon(Icons.flash_on), label: 'Latihan'),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
+        // BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
       ],
     );
   }

@@ -21,20 +21,20 @@ class QuizPage extends StatelessWidget {
               Text("Soal ${controller.currentQuestionIndex.value + 1}",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               SizedBox(height: 8),
-              Text(question["question"]),
+              // Text(question["question"]),
               SizedBox(height: 16),
 
-              for (int i = 0; i < question["options"].length; i++)
-                ListTile(
-                  title: Text(question["options"][i]),
-                  leading: Radio<int>(
-                    value: i,
-                    groupValue: controller.selectedAnswer.value,
-                    onChanged: controller.isAnswered.value
-                        ? null
-                        : (val) => controller.selectAnswer(val!),
-                  ),
-                ),
+              // for (int i = 0; i < question["options"].length; i++)
+              //   ListTile(
+              //     title: Text(question["options"][i]),
+              //     leading: Radio<int>(
+              //       value: i,
+              //       groupValue: controller.selectedAnswer.value,
+              //       onChanged: controller.isAnswered.value
+              //           ? null
+              //           : (val) => controller.selectAnswer(val!),
+              //     ),
+              //   ),
 
               SizedBox(height: 16),
 
@@ -50,7 +50,7 @@ class QuizPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Divider(),
-                    Text("Kesulitan: ${question["difficulty"]}"),
+                    // Text("Kesulitan: ${question["difficulty"]}"),
                     Text("Benar: ${controller.correctAnswers}"),
                     Text("Salah: ${controller.wrongAnswers}"),
                     SizedBox(height: 10),

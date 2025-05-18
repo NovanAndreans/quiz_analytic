@@ -21,16 +21,9 @@ class QuizResultPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Skor Kamu",
+                "Selamat Anda telah selesai",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              Text(
-                "$score%",
-                style: TextStyle(fontSize: 40, color: Colors.indigoAccent),
-              ),
-              SizedBox(height: 20),
-              Text("Benar: ${controller.correctAnswers}"),
-              Text("Salah: ${controller.wrongAnswers}"),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {

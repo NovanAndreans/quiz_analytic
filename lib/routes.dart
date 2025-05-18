@@ -3,10 +3,8 @@ import 'package:quiz_analytic/Controllers/auth_controller.dart';
 import 'Views/Guest/login_page.dart';
 import 'Views/Guest/register_page.dart';
 import 'Views/Guest/splash_page.dart';
-import 'Views/Latihan/create_latihan.dart';
 import 'Views/Latihan/latihan.dart';
 import 'Views/Latihan/latihan_detail.dart';
-import 'Views/Latihan/latihan_evaluasi.dart';
 import 'Views/Materi/materi.dart';
 import 'Views/Materi/materi_detail.dart';
 import 'Views/Materi/materi_detail_list.dart';
@@ -47,10 +45,4 @@ final appRoutes = [
 
   // LatihanDetail route
   GetPage(name: '/latihan-detail', page: () => LatihanDetail()),
-
-  // LatihanEvaluasi route
-  GetPage(name: '/latihan-evaluasi', page: () => LatihanEvaluasi()),
-
-  // CreateLatihanPage route
-  GetPage(name: '/create-latihan', page: () => CreateLatihanPage()),
 ];
